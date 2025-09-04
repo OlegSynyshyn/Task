@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+<h1>Список Задач</h1>
+    {% for task in tasks %}
+        <p>
+            {{ task }}
+        </p>
+    {% endfor %}
+</div>
+
+{% endblock content %}

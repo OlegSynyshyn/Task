@@ -21,10 +21,10 @@ class Task(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name="Опис")
     priority = models.CharField(max_length=30, choices=PRIORITY_CHOICES, default="Low", verbose_name="Приорітет")
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default="Low", verbose_name="Статус")
-    deadline = models.DateTimeField(null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE )
-    created_at = models.DateTimeField(auto_now_add=True)
-    file = models.FileField(upload_to="task_files/", null=True, blank=True)
+    deadline = models.DateTimeField(null=True, blank=True, verbose_name="дедлайн")
+    user = models.ForeignKey(User, on_delete=models.CASCADE,verbose_name="користувач" )
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name="сттворено в")
+    file = models.FileField(upload_to="task_files/", null=True, blank=True, verbose_name="файл")
 
     def __str__(self):
         return f"{self.name} {self.status} {self.priority}"
