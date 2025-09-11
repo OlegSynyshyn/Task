@@ -1,12 +1,48 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="container">
-<h1>Список Задач</h1>
-    {% for task in tasks %}
-        <p>
-            {{ task }}
-        </p>
-    {% endfor %}
-</div>
+{% extends "base.html" %}
 
+{% block content %}
+<div class="container mt-4">
+    <h1>Список задач</h1>
+    <div class="list-group">
+        {% for task in tasks %}
+        <a href="{% url 'update_task' task.id %}" class="d-flex align-items-center list-group-item list-group-item-action gap-2">
+            <div>
+                <b>{{ task.name }}</b>
+                <small class="text-muted">— {{ task.created_at|date:"d.m.Y H:i" }}</small><br>
+                {% if task.description %}
+                    <small class="text-muted">{{ task.description }}</small>
+                {% endif %}
+            </div>
+
+            <div class="ms-3">
+                {% if task.status == "Pending" %}
+                    <span class="badge rounded-pill text-bg-warning text-dark">{{ task.get_status_display }}</span>
+                {% elif task.status == "In_progres" %}
+                    <span class="badge rounded-pill text-bg-info text-dark">{{ task.get_status_display }}</span>
+                {% elif task.status == "Done" %}
+                    <span class="badge rounded-pill text-bg-success">{{ task.get_status_display }}</span>
+                {% endif %}
+
+                {% if task.priority == "Low" %}
+                    <span class="badge rounded-pill text-bg-secondary">{{ task.get_priority_display }}</span>
+                {% elif task.priority == "Medium" %}
+                    <span class="badge rounded-pill text-bg-primary">{{ task.get_priority_display }}</span>
+                {% elif task.priority == "High" %}
+                    <span class="badge rounded-pill text-bg-danger">{{ task.get_priority_display }}</span>
+                {% endif %}
+            </div>
+
+            <div class="ms-auto">
+                {% if task.deadline %}
+                    <small class="text-muted">{{ task.deadline|date:"d.m.Y H:i" }}</small>
+                {% endif %}
+            </div>
+        </a>
+        {% empty %}
+        <p>Немає задач.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'create_task' %}" class="btn btn-primary mt-3">Додати задачу</a>
+</div>
 {% endblock content %}
