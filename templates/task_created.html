@@ -1,10 +1,43 @@
 {% extends 'base.html' %}
-{% block content %}
-<h1>Нове завдання</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_div }}
-    <button type="submit">Створити задачу</button>
-</form>
 
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+    <h2>Нове завдання</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="id_name" class="form-label">Назва задачі</label>
+            {{ form.name }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Опис</label>
+            {{ form.description }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_priority" class="form-label">Пріоритет</label>
+            {{ form.priority }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_status" class="form-label">Статус</label>
+            {{ form.status }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_deadline" class="form-label">Дедлайн</label>
+            {{ form.deadline }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_file" class="form-label">Файл</label>
+            {{ form.file }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Створити задачу</button>
+        <a href="{% url 'task_list' %}" class="btn btn-secondary ms-2">Назад до списку</a>
+    </form>
+</div>
 {% endblock content %}

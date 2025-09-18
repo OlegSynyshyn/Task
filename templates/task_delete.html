@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+    <h2>Видалення задачі</h2>
+    <p>Ви впевнені, що хочете видалити задачу:</p>
+    <h4>{{ object.name }}</h4>
+    <p><small class="text-muted">Створено: {{ object.created_at|date:"d.m.Y H:i" }}</small></p>
+    <p><strong>Статус:</strong> {{ object.get_status_display }} | <strong>Пріоритет:</strong> {{ object.get_priority_display }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Так, видалити</button>
+        <a href="{% url 'task_list' %}" class="btn btn-secondary ms-2">Скасувати</a>
+    </form>
+</div>
+{% endblock content %}

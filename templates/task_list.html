@@ -3,9 +3,16 @@
 {% block content %}
 <div class="container mt-4">
     <h1>Список задач</h1>
+
+<form action="" method="get" class="d-flex gap-2 mb-3">
+    {{ filter_form.status }}
+    {{ filter_form.priority }}
+    <button type="submit" class="btn btn-primary">Фільтрувати</button>
+</form>
     <div class="list-group">
+
         {% for task in tasks %}
-        <a href="{% url 'update_task' task.id %}" class="d-flex align-items-center list-group-item list-group-item-action gap-2">
+        <div class="d-flex align-items-center list-group-item gap-2">
             <div>
                 <b>{{ task.name }}</b>
                 <small class="text-muted">— {{ task.created_at|date:"d.m.Y H:i" }}</small><br>
@@ -32,12 +39,14 @@
                 {% endif %}
             </div>
 
-            <div class="ms-auto">
+            <div class="ms-auto d-flex gap-2">
                 {% if task.deadline %}
                     <small class="text-muted">{{ task.deadline|date:"d.m.Y H:i" }}</small>
                 {% endif %}
+                <a href="{% url 'update_task' task.id %}" class="btn btn-sm btn-outline-primary">Редагувати</a>
+                <a href="{% url 'delete_task' task.id %}" class="btn btn-sm btn-outline-danger">Видалити</a>
             </div>
-        </a>
+        </div>
         {% empty %}
         <p>Немає задач.</p>
         {% endfor %}
