@@ -9,7 +9,11 @@ class TaskListView(ListView):
     context_object_name = 'tasks'
 
     def get_queryset(self):
-        tasks = Task.objects.filter(user=self.request.user).all()
+        if self.request.user.is_authenticated:
+            tasks = Task.objects.filter(user=self.request.user)
+        else:
+            tasks = Task.objects.none()
+        
         status = self.request.GET.get("status", "")
         priority = self.request.GET.get("priority", "")
         if status:
@@ -18,7 +22,6 @@ class TaskListView(ListView):
             tasks = tasks.filter(priority=priority)
         return tasks
 
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter_form'] = TaskFilterForm(self.request.GET)
